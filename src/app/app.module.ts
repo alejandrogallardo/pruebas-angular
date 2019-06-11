@@ -6,6 +6,10 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
+// Routes
+import { APP_ROUTING } from './app.routes';
+import { HomeComponent } from './components/home/home.component';
+import { ServicesComponent } from './components/services/services.component';
 
 @NgModule({
   declarations: [
@@ -13,10 +17,13 @@ import { ContactComponent } from './components/contact/contact.component';
     NavbarComponent,
     FooterComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    HomeComponent,
+    ServicesComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    APP_ROUTING
   ],
   providers: [],
   bootstrap: [AppComponent]
