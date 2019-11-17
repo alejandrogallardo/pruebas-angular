@@ -1,0 +1,234 @@
+<div class="container mt-5 mb-5">
+  <h3>Filtro</h3>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th class="col-md-1">CDO</th>
+        <th class="col-md-7">Descripcion</th>
+        <th class="col-md-1">P. Unidad</th>
+        <th class="col-md-1">Cantidad</th>
+        <th class="col-md-1">Total</th>
+        <th class="col-md-1">Opciones</th>
+      </tr>
+    </thead>
+  </table>
+  <!-- (ngSubmit)="guardar( forma )" #forma="ngForm" -->
+  <form  [formGroup]="registerForm" (ngSubmit)="guardar()"> 
+    <div formArrayName="products" *ngFor="let product of products.controls; let i = index">
+      <div [formGroupName]="i">
+        <div class="input-group">
+              <select class="form-control col-md-1" 
+                      [attr.id]="'codigo' + i" 
+                      formControlName="codigo" 
+                      >
+                      <!-- name="filterProds"
+                      [(ngModel)]="filterProds" -->
+                <option *ngFor="let item of productos" 
+                        value="{{ item.codigo }}"
+                        >{{ item.codigo }}</option>
+              </select>
+
+              <!-- <input  type="text"  
+                      class="form-control col-md-1"  
+                      placeholder="COD"
+                      name="filterProds"
+                      [(ngModel)]="filterProds"> -->
+
+
+              <select class="form-control col-md-7" 
+                      [attr.id]="'descripcion' + i"
+                      formControlName="descripcion"
+                      >
+                  <!-- name="descripcion"
+                      [(ngModel)]="descripcion" -->
+                      <!-- | filter:filterProds -->
+                <option *ngFor="let producto of productos " value="{{ producto.descripcion }}"
+                
+                >{{ producto.descripcion }}</option>
+              </select>
+              
+              <select 
+              class="custom-select col-md-1"
+                      [attr.id]="'precioUnidad' + i"
+                      (formControlName)="precioUnidad"        
+                      >
+                      <!-- name="precioUnidad"
+                      [(ngModel)]="precioUnidad" -->
+                <option *ngFor="let producto of productos | filter:filterProds"  
+                value="{{ producto.precio }}" selected>{{ producto.precio }}</option>
+              </select>
+
+              <!-- <input *ngFor="let producto of productos | filter:filterProds"
+              type="text"  
+              class="form-control col-md-1"  
+              placeholder=""
+              value="{{ producto.precio }}"
+              name="precioUnidad"
+              [(ngModel)]="producto.precio"> -->
+            
+            <input  type="number"  
+                    class="form-control col-md-1"  
+                    placeholder=""
+                    value="valorp"
+                    [attr.id]="'valorp' + i"
+                    formControlName="valorp"
+                    >
+                    <!-- name="valorp"
+                    [(ngModel)]="valorp" -->
+            <input  type="text"  
+                    class="form-control col-md-1"
+                    value=""
+                    [attr.id]="'totalp' + i"
+                    formControlName="totalp"
+                    placeholder="" 
+                    >
+                    <!-- name="totalp"
+                    [(ngModel)]="totalp" -->
+            <button class="btn btn-md btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect"
+            (click)="removerProduct(i)">Remover</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group d-flex justify-content-end">
+        <a class="btn btn-primary" (click)="addProduct()">Agregar</a>
+    </div>
+
+
+    <!-- [disabled]="!forma.valid" -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{{ filterProds }}
+{{ valorp }}
+{{ precioUnidad }}
+{{ totalp }}
+
+
+
+<form (ngSubmit)="enviar( forma )" #forma="ngForm">
+  <div class="input-group">
+    <div class="form-group">
+      <input  type="text"  
+              class="form-control"  
+              placeholder="Numero Uno"
+              name="numero1"
+              [(ngModel)]="calculo.numero1"
+              >
+    </div>
+    <div class="form-group">
+      <input  type="text"  
+              class="form-control"  
+              placeholder="Numero dos"
+              name="numero2"
+              [(ngModel)]="calculo.numerodos"
+              (change)="calculate()"
+              >
+    </div>
+    <div class="form-group">
+      <input  type="text"  
+              class="form-control"
+              name="total"
+              [(ngModel)]="calculo.totalop"
+              >
+    </div>
+  </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<h1>Template-driven Approach</h1>
+<form (ngSubmit)="save( fomulario )" #fomulario="ngForm"> 
+    <div >
+      <div >
+        <div class="input-group">
+              <select class="form-control col-md-1" 
+              name="filterProds"
+              [(ngModel)]="filterProds" 
+                      >
+                    
+                <option *ngFor="let item of productos" 
+                        
+                        >{{ item.codigo }}</option>
+              </select>
+
+              <!-- <input  type="text"  
+                      class="form-control col-md-1"  
+                      placeholder="COD"
+                      name="filterProds"
+                      [(ngModel)]="filterProds"> -->
+
+
+              <select class="form-control col-md-7" 
+              name="descripcion"
+              [(ngModel)]="descripcion"
+                      >
+                  
+                <option *ngFor="let producto of productos | filter:filterProds" 
+                value="{{ producto.descripcion }}"
+                
+                >{{ producto.descripcion }}</option>
+              </select>
+              
+              <!-- <select 
+              class="custom-select col-md-1"
+              name="precioUnidad"
+              [(ngModel)]="precioUnidad"        
+                      >
+                    
+                <option *ngFor="let producto of productos | filter:filterProds"  
+                value="{{ producto.precio }}">{{ producto.precio }}</option>
+              </select> -->
+
+              <input *ngFor="let producto of productos | filter:filterProds"
+              type="text"  
+              class="form-control col-md-1"  
+              placeholder=""
+              name="precioUnidad"
+              [(ngModel)]="producto.precio">
+            
+            <input  type="text"  
+                    class="form-control col-md-1"  
+                    placeholder=""
+                    name="valorp"
+                    [(ngModel)]="valorp"
+                    >
+                    <!-- name="valorp"
+                    [(ngModel)]="valorp" -->
+            <input  type="text"  
+                    class="form-control col-md-1"
+                    value="{{ valorp }}"
+                    name="totalp"
+                    [(ngModel)]="valorp"
+                    >
+                    <!-- name="totalp"
+                    [(ngModel)]="totalp" -->
+            <button class="btn btn-md btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect"
+            >Remover</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- [disabled]="!forma.valid" -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+    <h1>Impuestos</h1>
+    <form #form="ngForm">
+        <div class="form-row">
+            <div class="form-group col-md-5">
+                <label>Precio</label>
+                <input type="text" class="form-control" name="purchaseForm" [(ngModel)]="model.pprice">
+            </div>
+            <div class="form-group col-md-2">
+                <label>IVA</label>
+                <select class="form-control" name="taxes" (change)="calculates()"  [(ngModel)]="model.tax">
+                    <option value="0.30">30%</option>
+                    <option value="0.12">12%</option>
+                    <option value="0.05">5%</option>
+                </select>
+            </div>
+            <div class="form-group col-md-5">
+                <label>IVA a pagar</label>
+                <input type="text" class="form-control" name="ptax" [(ngModel)]="model.total"> 
+            </div>
+        </div>
+        </form>

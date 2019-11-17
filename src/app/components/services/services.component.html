@@ -1,3 +1,162 @@
-<p>
-  services works!
-</p>
+<!-- <section class="servicios">
+  <div class="container">
+    <h2 class="text-center">Servicios</h2> 
+  <div class="row text-center">
+    <div class="col-md-6">
+      <h3>Maquila industrial:</h3>
+      <div class="icon-service">
+        <i class="fas fa-industry fa-5x"></i>
+      </div>
+      <p>Traiganos su molde y le fabricamos su producto.</p>
+    </div>
+    <div class="col-md-6">
+      <h3>Fabricación de moldes:</h3>
+      <i class="fas fa-cogs fa-5x"></i>
+      <p>¿Aún no cuenta con el molde requerido para la facricación de su producto? 
+          Nosotros se lo hacemos.</p>
+    </div>
+  </div>
+  </div>
+</section> -->
+
+<section class="container mt-5">
+    <h4>Formularios aproximación por data</h4>
+    <hr>
+    <form [formGroup]="forma" (ngSubmit)="guardarCambios()" novalidate="novalidate">
+    
+      <div formGroupName="nombrecompleto"><!-- Grupo UserData de la segunda forma -->
+    
+        <div class="form-group row">
+          <label class="col-2 col-form-label">Nombre</label>
+          <div class="col-8">
+    
+            <input class="form-control"
+                   type="text"
+                   placeholder="Nombre"
+                   formControlName="nombre">
+          </div>
+        </div>
+    
+        <!-- [ngClass]="{ 'is-invalid': (nombre.errors?.required || nombre.errors?.minlength)}" -->
+        <!-- [ngClass]="{ 'is-invalid': !forma.get('apellido').valid }" Eso es una forma -->
+        <!-- [ngClass]="{ 'is-invalid': !forma.controls['nombrecompleto'].controls['apellido'].valid }" Otra forma -->
+        <div class="form-group row">
+          <label class="col-2 col-form-label">Apellido</label>
+          <div class="col-8">
+    
+            <input class="form-control"
+                  [ngClass]="{ 'is-invalid': !forma.controls['nombrecompleto'].controls['apellido'].valid }"
+                   type="text"
+                   placeholder="Apellido"
+                   formControlName="apellido">
+
+                   <!-- Validaciones Primera forma -->
+                   <!-- invalid-feedback -->
+                   <!-- <div class="invalid-feedback" *ngIf="forma.controls['apellido'].errors?.required">
+                      <small>Este campo es requerido</small>
+                    </div>
+                   <div class="" *ngIf="forma.controls['apellido'].errors?.minlength">
+                      <small>Se requieren por lo menos 3 caracteres</small>
+                    </div> -->
+
+                    <!-- Fin Validaciones -->
+
+
+                   <!-- Validaciones Segunda forma -->
+                   <!-- invalid-feedback -->
+                   <div class="invalid-feedback" *ngIf="forma.get('nombrecompleto.apellido').errors?.required">
+                      <small>Este campo es requerido</small>
+                    </div>
+                   <div class="" *ngIf="forma.get('nombrecompleto.apellido').errors?.minlength">
+                      <small>Se requieren por lo menos 3 caracteres</small>
+                    </div>
+
+                    <!-- Fin Validaciones -->
+
+          </div>
+        </div>
+    
+      </div>
+    
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Correo</label>
+        <div class="col-md-8">
+    
+          <input class="form-control"
+                 type="email"
+                 placeholder="Correo electronico"
+                 formControlName="correo">
+        </div>
+      </div>
+
+      <!-- Validaciones Asincronas -->
+      <div class="form-group row">
+          <label class="col-2 col-form-label">Username</label>
+          <div class="col-md-8">
+      
+            <input class="form-control"
+                   type="text"
+                   placeholder="Username"
+                   formControlName="username">
+          </div>
+        </div>
+      <!-- Validaciones Asincronas -->
+
+      <!-- Validacion de password -->
+
+      <div class="form-group row">
+          <label class="col-2 col-form-label">Password</label>
+          <div class="col-md-8">
+      
+            <input class="form-control"
+                   type="password"
+                   placeholder="Password"
+                   formControlName="password1">
+          </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Repetir Password</label>
+            <div class="col-md-8">
+        
+              <input class="form-control"
+                     type="password"
+                     placeholder="Repetir Password"
+                     formControlName="password2">
+            </div>
+          </div>
+
+      <!-- Fin Valicaion de password -->
+    
+    <!-- Agregar pasatiempos -->
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Pasatiempos</label>
+      <div class="col-md-8" formArrayName="pasatiempos">
+
+        <input  *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls; let i = index"
+                [formControlName]="i" 
+                class="form-control" 
+                type="text" >
+
+      </div>
+
+    </div>    
+    <div class="d-flex justify-content-end container col-md-8"> 
+      <button class="btn btn-primary" type="button" (click)="agregarPasatiempo()">Nuevo</button>
+    </div>
+    <!-- Fin agregar pasatiempos -->
+    
+      <div class="form-group row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col-md-8">
+          <button type="submit" class="btn btn-outline-primary">
+            Guardar
+          </button>
+        </div>
+      </div>
+    
+      {{ forma.valid }}
+      <br>
+      {{ forma.status }}
+    </form>
+</section>

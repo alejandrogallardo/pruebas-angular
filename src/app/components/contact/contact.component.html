@@ -1,3 +1,187 @@
-<p>
-  contact works!
-</p>
+<div class="container"> 
+  <h1>Contacto</h1>
+  <hr>
+
+  <form (ngSubmit)="guardar( forma )" #forma="ngForm" novalidate="">
+    <div class="form-group" 
+    >
+      <label>Nombre</label>
+      <!-- [ngClass]="{ 'is-invalid': (nombre.errors?.required || nombre.errors?.minlength)}" -->
+      <input  type="text" 
+              class="form-control" 
+              [ngClass]="{ 'is-invalid': (nombre.errors?.required || nombre.errors?.minlength)}" 
+              placeholder="Ingresar Nonbre"
+              name="nombre"
+              [(ngModel)]="usuario.nombre"
+              minlength="5"
+              required
+              #nombre="ngModel">
+
+              <!-- Mensajes de validacion -->
+              <div  *ngIf="nombre.errors?.required" class="invalid-feedback">
+                <small>Este campo es requerido</small>
+              </div>
+              <div class="invalid-feedback" *ngIf="nombre.errors?.minlength">
+                Este campo es requiere {{ nombre.errors.minlength.requiredLength }} caracteres
+              </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">{{ apellido }}</label>
+      <input  type="text" 
+              class="form-control" 
+              placeholder="Ingresar Apellido"
+              name="apellido"
+              [(ngModel)]="apellido"
+              required>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">{{ apodo }}</label>
+      <input  type="text" 
+              class="form-control" 
+              placeholder="Pattern Validation String"
+              name="apodo"
+              [(ngModel)]="apodo"
+              pattern="[a-zA-Z ]*"
+              required
+              (keypress)="alphaOnly($event)">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">{{ numerico }}</label>
+      <input  type="text" 
+              class="form-control" 
+              placeholder="Pattern Validation Numeric"
+              name="numerico"
+              [(ngModel)]="numerico"
+              pattern="[0-9]*"
+              required
+              (keypress)="numberOnly($event)">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input  type="email" 
+              class="form-control" 
+              placeholder="Enter email"
+              name="correo"
+              ngModel
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+              #correo="ngModel">
+
+              <!-- Mensajes de validacion -->
+              <div *ngIf="correo.errors?.required">
+                <small class="form-text text-muted">Este campo es requerido</small>
+              </div>
+              <div *ngIf="correo.errors?.pattern">
+                <small class="form-text text-muted">El campo no tiene formato de correo</small>
+              </div>
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+  
+    <!-- Select -->
+    <div class="form-group row">
+      <div class="col-md-8">
+        <select [(ngModel)]="usuario.pais"
+                name="pais" 
+                id=""
+                class="form-control">
+          <option value="">Seleccione un pais</option>      
+          <option *ngFor="let pais of paises"
+                  [value]="pais.codigo">{{ pais.pais }}</option>      
+        </select>
+      </div>
+    </div>
+    
+    <!-- Radio buttons -->
+    <div class="form-group row">
+      <label for="">Sexo</label>
+      <div class="col-md-8">
+        
+        <!-- Default inline 1-->
+        <div  *ngFor="let s of sexos"
+              class="custom-control custom-radio custom-control-inline">
+          <input  [(ngModel)]="usuario.sexo"
+                  name="sexo"
+                  type="radio"
+                  [value]="s" 
+                  class="custom-control-input"
+                  [id]="s">
+          <label class="custom-control-label" [for]="s">{{ s }}</label>
+        </div>
+
+        <!-- Default inline 2-->
+        <!-- <div class="custom-control custom-radio custom-control-inline">
+          <input [(ngModel)]="usuario.sexo"
+                  name="sexo"
+                  type="radio"
+                  value="Mujer" 
+                  class="custom-control-input" 
+                  >
+          <label class="custom-control-label" for="defaultInline2">M</label>
+        </div> -->
+
+      </div>
+    </div>
+
+    <div class="form-group form-check">
+        <input  [(ngModel)]="usuario.acepta"
+                name="acepta"
+                type="checkbox" 
+                class="form-check-input"
+                required>
+        <label class="form-check-label">Aceptar</label>
+      </div>
+
+
+      
+
+    <!-- [disabled]="!forma.valid" -->
+    <button type="submit" class="btn btn-primary" [disabled]="!forma.valid">Submit</button>
+  </form>
+
+  <pre>
+    {{ usuario | json }}
+  </pre>
+</div>
+
+
+<hr>
+
+
+<div class="container">
+
+  <h3>Productos</h3>
+  
+  <form [formGroup]="registerForm"> 
+  
+  <!-- Prueba input factura -->
+  
+  <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
+    <div [formGroupName]="i">
+      <div class="input-group">
+        <!-- <label class="col-md-1" [attr.for]="'telefono' + i">Teléfono</label> -->
+        <!-- <div class="col-md-3"> -->
+          <input type="text" [attr.id]="'codigo' + i" class="form-control col-md-1" formControlName="codigo" placeholder="COD">
+        <!-- </div> -->
+        <!-- <label class="col-md-1" [attr.for]="'descripcion' + i">Descripcion</label> -->
+        <!-- <div class="col-md-3"> -->
+          <input type="text" [attr.id]="'descripcion' + i" class="form-control col-md-8" formControlName="descripcion" placeholder="Descripcion">
+        <!-- </div> -->
+        <input type="text" [attr.id]="'cantidad' + i" class="form-control col-md-1" formControlName="cantidad" placeholder="">
+        <input type="text" [attr.id]="'total' + i" class="form-control col-md-1" formControlName="total" placeholder="00.00" disabled>
+        <!-- <span [attr.id]="'total' + i" class="form-control col-md-1" formControlName="total" class="input-group-text"></span> -->
+        <!-- <div> -->
+          <button class="btn btn-md btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect" (click)="removerTelefono(i)">Remover</button>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group d-flex justify-content-end">
+      <a class="btn btn-primary" (click)="agregarTelefono()">Agregar</a>
+  </div>
+  <!-- Fin input prueba facura -->
+  
+  
+  
+  </form>
+</div>
